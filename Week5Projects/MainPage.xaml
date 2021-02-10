@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Week5Projects.MainPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
+   <ListView x:Name="postList" HasUnevenRows="True">
+       <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal" Padding="0,13" >
+                    <StackLayout>
+                        <Label Text="{Binding CarModel}" />
+                        <Label Text="{Binding carmodel2}"/>
+                    </StackLayout>
+                    <Label Text="{Binding year}" HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </ViewCell>
+                </DataTemplate>
+                           </ListView.ItemTemplate>
+
+   </ListView>
+
+</ContentPage>
