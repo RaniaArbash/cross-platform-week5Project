@@ -7,6 +7,8 @@ namespace Week5Projects
         public string CarModel { get; set; }
         public string carmodel2 { get; set; }
         public int year { get; set; }
+
+
         public CarClass()
         {
         }

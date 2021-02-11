@@ -9,18 +9,23 @@ namespace Week5Projects
 {
     public partial class SearchPage : ContentPage
     {
-        public NetworkingManager networkingManager = new NetworkingManager();
-        private BindableProperty IsSearchingProperty =
-            BindableProperty.Create("IsSearching", typeof(bool), typeof(SearchPage), false);
+       public NetworkingManager networkingManager = new NetworkingManager();
+
+        
+        public static readonly BindableProperty IsSearchingProperty =
+            BindableProperty.Create("IsSearching", typeof(bool), typeof(SearchPage));
         public bool IsSearching
         {
             get { return (bool)GetValue(IsSearchingProperty); }
             set { SetValue(IsSearchingProperty, value); }
+
         }
         public SearchPage()
         {
             BindingContext = this;
             InitializeComponent();
+            IsSearching = false;
+
         }
         async void OnTextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
         {    
@@ -31,20 +36,17 @@ namespace Week5Projects
 
         async Task FindStock(string query)
         {
-            try
-            {
+            try {
                 IsSearching = true;
-                var stocks = await networkingManager.searchForStock(query);
-                stockListView.ItemsSource = stocks;
-                stockListView.IsVisible = stocks.Any();
-                notFound.IsVisible = !stockListView.IsVisible;
+               var stockList = await networkingManager.searchForStock(query);
+                stockListView.ItemsSource = stockList;
             }
-            catch (Exception)
-            {
-                await DisplayAlert("Error", "Could not retrieve the list of movies.", "OK");
+            catch {
+                await DisplayAlert("Error", "Could not found any result ", "OK");
             }
             finally
             {
+
                 IsSearching = false;
             }
         }

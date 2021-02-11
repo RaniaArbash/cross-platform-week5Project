@@ -22,11 +22,11 @@ namespace Week5Projects
         protected  async override void OnAppearing()
         {
 
-          // var list = await networkingManager.getCars();
-
             postList.ItemsSource = null;
-            var list = await networkingManager.GetAllPosts();
+
+            var list = await networkingManager.getCars();
             car_list = new ObservableCollection<CarClass>(list);
+
             postList.ItemsSource = car_list;
             base.OnAppearing();
 

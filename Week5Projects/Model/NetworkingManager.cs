@@ -17,24 +17,20 @@ namespace Week5Projects
 
         private HttpClient client = new HttpClient();
 
-
         private string yahoo_url1 = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=";
         private string yahoo_url2 = "&region=1&lang=en";
         public NetworkingManager()
         {
         }
 
-        public async Task<IEnumerable<CarClass>> GetAllPosts()
+        public async Task<List<CarClass>> getCars()
         {
-            var response = await client.GetStringAsync(url);
-            return JsonConvert.DeserializeObject<List<CarClass>>(response);
-        }
+            
+            var respone = await client.GetStringAsync(url);
+            
+            return JsonConvert.DeserializeObject<List<CarClass>>(respone);
 
-        public async Task<IEnumerable<CarClass>> getCars()
-        {
-
-            var response = await client.GetStringAsync(url);
-            return JsonConvert.DeserializeObject<List<CarClass>>(response);
+           
         }
 
 
@@ -50,22 +46,28 @@ namespace Week5Projects
             var content = JsonConvert.SerializeObject(car);
              client.PostAsync(url, new StringContent(content));
         }
-    
-        public async Task<List<Stock>> searchForStock(string key)
-        {
+
+        public async Task<List<Stock>>  searchForStock(string key) {
             var url = yahoo_url1 + key + yahoo_url2;
-            var response1 = await client.GetAsync(url);
-            if (response1.StatusCode == HttpStatusCode.NotFound)
+             var response = await client.GetAsync(url);
+            if (response.StatusCode == HttpStatusCode.NotFound)
                 return new List<Stock>();
 
-            var responseString = await response1.Content.ReadAsStringAsync();
-             
-            var dic = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(responseString);
-            var array = dic.ElementAt(0).Value.ElementAt(1).Value;
-            var list = JsonConvert.DeserializeObject<List<Stock>>(array.ToString());
 
-            return list;
+           var stringResponse = await response.Content.ReadAsStringAsync();
+           var dic = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string,object>>>(stringResponse);
+            var array = dic.ElementAt(0).Value.ElementAt(1).Value;
+            return JsonConvert.DeserializeObject<List<Stock>>(array.ToString());
         }
+
+
+        //public async Task<List<Stock>> searchForStock(string key)
+        //{
+        //    var url = yahoo_url1 + key + yahoo_url2;
+        //    var response1 = await client.GetAsync(url);
+
+        //    return list;
+        //}
 
 
     }

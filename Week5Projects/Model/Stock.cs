@@ -9,9 +9,5 @@ namespace Week5Projects
       public string name { get; set; }
     }
 
-    public class YahooModel
-    {
-        public string Query { get; set; }
-        public List<Stock> Result { get; set; }
-}
+
 }
