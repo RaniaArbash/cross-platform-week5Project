@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Week5Projects.SearchPage">
-    <ContentPage.Content>
-    </ContentPage.Content>
+   <StackLayout>
+		<SearchBar TextChanged="OnTextChanged" Placeholder="Search by stock..."/>
+		<ActivityIndicator IsRunning="{Binding IsSearching}" />
+		<Frame x:Name="notFound" Padding="20" HasShadow="false" IsVisible="false">
+			<Label Text="No stocks found matching your search." TextColor="Gray" />
+		</Frame>
+		<ListView x:Name="stockListView" IsVisible="false" >
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<TextCell 
+						Text="{Binding name}" Detail="{Binding symbol}" />
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</StackLayout>
 </ContentPage>

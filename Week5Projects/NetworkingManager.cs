@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -49,12 +51,20 @@ namespace Week5Projects
              client.PostAsync(url, new StringContent(content));
         }
     
-        public async Task<Dictionary<Object, Object>> searchForStock(string key)
+        public async Task<List<Stock>> searchForStock(string key)
         {
             var url = yahoo_url1 + key + yahoo_url2;
             var response1 = await client.GetAsync(url);
+            if (response1.StatusCode == HttpStatusCode.NotFound)
+                return new List<Stock>();
+
             var responseString = await response1.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Dictionary<Object,Object>>(responseString);
+             
+            var dic = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, object>>>(responseString);
+            var array = dic.ElementAt(0).Value.ElementAt(1).Value;
+            var list = JsonConvert.DeserializeObject<List<Stock>>(array.ToString());
+
+            return list;
         }
 
 
